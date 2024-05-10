@@ -10,21 +10,21 @@ DATASET_PATH = 'CI4IoT23-24_Proj1_SampleData.csv'
 FS = FuzzySystem()
 
 # Processor Load
-PL_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-PL_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.75, c=1.0), term="medium")
-PL_3 = FuzzySet(function=Triangular_MF(a=0.70, b=1.0, c=1.0), term="high")
+PL_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+PL_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.75, c=0.75, d=1), term="medium")
+PL_3 = FuzzySet(function=Trapezoidal_MF(a=0.70, b=1.0, c=1.0, d=1.0), term="high")
 FS.add_linguistic_variable("ProcessorLoad", LinguisticVariable([PL_1, PL_2, PL_3], concept="Processor Load", universe_of_discourse=[0,1]))
 
 # Memory Usage
-MU_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-MU_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.75, c=1.0), term="medium")
-MU_3 = FuzzySet(function=Triangular_MF(a=0.70, b=1.0, c=1.0), term="high")
+MU_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+MU_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.75, c=0.75, d=1), term="medium")
+MU_3 = FuzzySet(function=Trapezoidal_MF(a=0.70, b=1.0, c=1.0, d=1.0), term="high")
 FS.add_linguistic_variable("MemoryUsage", LinguisticVariable([MU_1, MU_2, MU_3], concept="Memory Usage", universe_of_discourse=[0,1]))
 
 # CpuMem
-T_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.60), term="low")
-T_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.9), term="medium")
-T_3 = FuzzySet(function=Triangular_MF(a=0.80, b=1.0, c=1.0), term="high")
+T_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.6), term="low")
+T_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.7, c=0.7, d=0.9), term="medium")
+T_3 = FuzzySet(function=Trapezoidal_MF(a=0.80, b=1.0, c=1.0, d=1.0), term="high")
 FS.add_linguistic_variable("CpuMem", LinguisticVariable([T_1, T_2, T_3], universe_of_discourse=[0,1]))
 
 
@@ -38,33 +38,33 @@ FS.add_rules([R1_1, R1_2, R1_3])
 FS2 = FuzzySystem()
 
 # InpNetThroughput
-IN_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-IN_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.8), term="medium")
-IN_3 = FuzzySet(function=Triangular_MF(a=0.60, b=1.0, c=1.0), term="high")
+IN_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+IN_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
+IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("InpNetThroughput", LinguisticVariable([IN_1, IN_2, IN_3], concept="Input Network Throughput", universe_of_discourse=[0,1]))
 
 # OutNetThroughput
-OUT_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-OUT_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.8), term="medium")
-OUT_3 = FuzzySet(function=Triangular_MF(a=0.60, b=1.0, c=1.0), term="high")
+OUT_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+OUT_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
+OUT_3 = IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("OutNetThroughput", LinguisticVariable([OUT_1, OUT_2, OUT_3], concept="Output Network Throughput", universe_of_discourse=[0,1]))
 
 # OutBandwidth
-OB_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-OB_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.8), term="medium")
-OB_3 = FuzzySet(function=Triangular_MF(a=0.60, b=1.0, c=1.0), term="high")
+OB_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+OB_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
+OB_3 = IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("OutBandwidth", LinguisticVariable([OB_1, OB_2, OB_3], concept="Output Bandwidth", universe_of_discourse=[0,1]))
 
 # Latency
-L_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-L_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.8), term="medium")
-L_3 = FuzzySet(function=Triangular_MF(a=0.60, b=1.0, c=1.0), term="high")
+L_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+L_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
+L_3 = IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("Latency", LinguisticVariable([L_1, L_2, L_3], concept="Latency", universe_of_discourse=[0,1]))
 
 # Network Usage
-NU_1 = FuzzySet(function=Triangular_MF(a=0, b=0, c=0.70), term="low")
-NU_2 = FuzzySet(function=Triangular_MF(a=0.5, b=0.70, c=0.8), term="medium")
-NU_3 = FuzzySet(function=Triangular_MF(a=0.60, b=1.0, c=1.0), term="high")
+NU_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0, d=0.7), term="low")
+NU_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
+NU_3 = IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("NetUsage", LinguisticVariable([NU_1, NU_2, NU_3], concept="Network Usage", universe_of_discourse=[0,1]))
 
 # Define Rules
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
         # Evaluate the system
         cpu_mem = FS.Mamdani_inference(["CpuMem"])
-        network = FS2.Mamdani_inference(["NetUsage"])
+        #network = FS2.Mamdani_inference(["NetUsage"])
 
 
 
