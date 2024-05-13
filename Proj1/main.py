@@ -29,11 +29,17 @@ T_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="mediu
 T_3 = FuzzySet(function=Trapezoidal_MF(a=0.7, b=0.75, c=1.0, d=1.0), term="high")
 FS.add_linguistic_variable("CpuMem", LinguisticVariable([T_1, T_2, T_3], concept="Hardware Resources", universe_of_discourse=[0,1]))
 
-# Define fuzzy rules
-R1_1 = "IF (ProcessorLoad IS high) OR (MemoryUsage IS high) THEN (CpuMem IS high)"
-R1_2 = "IF (ProcessorLoad IS medium) OR (MemoryUsage IS medium) THEN (CpuMem IS medium)"
-R1_3 = "IF (ProcessorLoad IS low) OR (MemoryUsage IS low) THEN (CpuMem IS low)"
-FS.add_rules([R1_1, R1_2, R1_3])
+R1 = []
+R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS medium) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
+R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
+R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS low) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS low) THEN (CpuMem IS medium)")
+R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS low) THEN (CpuMem IS low)")
+FS.add_rules(R1)
 
 
 # #### NETWORK USAGE ####
@@ -42,7 +48,7 @@ FS.add_rules([R1_1, R1_2, R1_3])
 
 FS2 = FuzzySystem(show_banner=False)
 
-# OutNetThroughput
+# Output Net Throughput
 OUT_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.3, d=0.5), term="low")
 OUT_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="medium")
 OUT_3 = FuzzySet(function=Trapezoidal_MF(a=0.6, b=0.75, c=1.0, d=1.0), term="high")
@@ -52,6 +58,7 @@ FS2.add_linguistic_variable("OutNetThroughput", LinguisticVariable([OUT_1, OUT_2
 OB_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.3, d=0.5), term="low")
 OB_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="medium")
 OB_3 = FuzzySet(function=Trapezoidal_MF(a=0.6, b=0.75, c=1.0, d=1.0), term="high")
+
 FS2.add_linguistic_variable("AvailOutBandwidth", LinguisticVariable([OB_1, OB_2, OB_3], concept="Available Output Bandwidth", universe_of_discourse=[0,1]))
 
 # Output Congestion
@@ -60,39 +67,31 @@ OC_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="medi
 OC_3 = FuzzySet(function=Trapezoidal_MF(a=0.6, b=0.75, c=1.0, d=1.0), term="high")
 FS2.add_linguistic_variable("OutCongestion", LinguisticVariable([OC_1, OC_2, OC_3], concept="Output Congestion", universe_of_discourse=[0,1]))
 
-# Define fuzzy rules
-R2_1 = "IF (OutNetThroughput IS high) THEN (OutCongestion IS high)"
-R2_2 = "IF (OutNetThroughput IS medium) AND (AvailOutBandwidth IS low) THEN (OutCongestion IS high)"
-R2_3 = "IF (OutNetThroughput IS low) AND (AvailOutBandwidth IS low) THEN (OutCongestion IS medium)"
-R2_4 = "IF (OutNetThroughput IS medium) THEN (OutCongestion IS medium)"
-R2_5 = "IF (OutNetThroughput IS low) THEN (OutCongestion IS low)"
-FS2.add_rules([R2_1, R2_2, R2_3, R2_4, R2_5])
+"""
+  Output Bandwith Available
+   ╭───┬───┬───┬───╮
+N  │   │ L │ M │ H │
+e  ├───┼───┼───┼───┤
+t  │ L │ m │ l │ l │
+   ├───┼───┼───┼───┤
+t  │ M │ h │ m │ m │
+h  ├───┼───┼───┼───┤
+r  │ H │ h │ h │ h │
+o  ╰───┴───┴───┴───╯
+ughput
+"""
 
-
-# FS3 = FuzzySystem(show_banner=False)
-
-# # Hardware
-# FS3.add_linguistic_variable("CpuMem", LinguisticVariable([T_1, T_2, T_3], concept="Hardware Resources", universe_of_discourse=[0,1]))
-
-# # # InpNetThroughput
-# IN_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.4, d=0.5), term="low")
-# IN_2 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.70, c=0.7, d=0.8), term="medium")
-# IN_3 = FuzzySet(function=Trapezoidal_MF(a=0.60, b=1.0, c=1.0, d=1.0), term="high")
-# FS3.add_linguistic_variable("InpNetThroughput", LinguisticVariable([IN_1, IN_2, IN_3], concept="Input Network Throughput", universe_of_discourse=[0,1]))
-
-# # Hardware balenced
-# NU_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.4, d=0.5), term="low")
-# NU_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="medium")
-# NU_3 = FuzzySet(function=Trapezoidal_MF(a=0.7, b=0.75, c=1.0, d=1.0), term="high")
-# FS3.add_linguistic_variable("HardBal", LinguisticVariable([NU_1, NU_2, NU_3], concept="Balanced Hardware", universe_of_discourse=[0,1]))
-
-# # Define fuzzy rules
-# R3_1 = "IF (CpuMem IS high) THEN (HardBal IS high)"
-# R3_2 = "IF (CpuMem IS medium) AND (InpNetThroughput IS high) THEN (HardBal IS high)"
-# R3_3 = "IF (CpuMem IS low) AND (InpNetThroughput IS high) THEN (HardBal IS medium)"
-# R3_4 = "IF (CpuMem IS medium) THEN (HardBal IS medium)"
-# R3_5 = "IF (CpuMem IS low) THEN (HardBal IS low)"
-# FS3.add_rules([R3_1, R3_2, R3_3, R3_4, R3_5])
+R2 = []
+R2.append("IF (OutNetThroughput IS low) AND (AvailOutBandwidth IS low) THEN (OutCongestion IS medium)")
+R2.append("IF (OutNetThroughput IS medium) AND (AvailOutBandwidth IS low) THEN (OutCongestion IS high)")
+R2.append("IF (OutNetThroughput IS high) AND (AvailOutBandwidth IS low) THEN (OutCongestion IS high)")
+R2.append("IF (OutNetThroughput IS low) AND (AvailOutBandwidth IS medium) THEN (OutCongestion IS low)")
+R2.append("IF (OutNetThroughput IS medium) AND (AvailOutBandwidth IS medium) THEN (OutCongestion IS medium)")
+R2.append("IF (OutNetThroughput IS high) AND (AvailOutBandwidth IS medium) THEN (OutCongestion IS high)")
+R2.append("IF (OutNetThroughput IS low) AND (AvailOutBandwidth IS high) THEN (OutCongestion IS low)")
+R2.append("IF (OutNetThroughput IS medium) AND (AvailOutBandwidth IS high) THEN (OutCongestion IS medium)")
+R2.append("IF (OutNetThroughput IS high) AND (AvailOutBandwidth IS high) THEN (OutCongestion IS high)")
+FS2.add_rules(R2)
 
 
 # #### COMPUTING LOAD PERCENTAGE (CLP) ####
@@ -115,36 +114,39 @@ CLP_5 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.75, c=1, d=1), term="increas
 FS_CLP.add_linguistic_variable("CLP", LinguisticVariable([CLP_1, CLP_2, CLP_3, CLP_4, CLP_5], concept="CLP Variation", universe_of_discourse=[-1,1]))
 
 # Rules
-RC_1 = "IF (CpuMem IS low) THEN CLP IS increase_much"
-RC_2 = "IF (CpuMem IS high) AND (OutCongestion IS low) THEN CLP IS decrease_much"
-RC_3 = "IF (CpuMem IS high) THEN CLP IS decrease_much"
-RC_4 = "IF (OutCongestion IS low) THEN CLP IS decrease"
-RC_5 = "IF (OutCongestion IS medium) THEN CLP IS mantain"
-RC_6 = "IF (OutCongestion IS high) THEN CLP IS increase"
-FS_CLP.add_rules([RC_1, RC_2, RC_3, RC_4, RC_5, RC_6])
+RC = []
+RC.append("IF (CpuMem IS low) THEN CLP IS increase_much")
+RC.append("IF (CpuMem IS high) AND (OutCongestion IS low) THEN CLP IS decrease_much")
+RC.append("IF (CpuMem IS high) AND (OutCongestion IS medium) THEN CLP IS decrease")
+RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) THEN CLP IS decrease_much")
+RC.append("IF (CpuMem IS medium) AND (OutCongestion IS low) THEN CLP IS increase")
+RC.append("IF (CpuMem IS medium) AND (OutCongestion IS medium) THEN CLP IS increase") # faz-me sentido ser manter, mas pelos testes não?
+RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) THEN CLP IS increase")
+FS_CLP.add_rules(RC)
 
+SHOW_3D = False
+SHOW_2D = False
+LOGGING_LEVEL = logging.INFO
+# LOGGING_LEVEL = logging.DEBUG
 
 if __name__ == '__main__':
     df = pd.read_csv(DATASET_PATH)
-    logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+    logging.basicConfig(level=LOGGING_LEVEL, format='%(levelname)s: %(message)s')
 
-    # fig = FS.plot_surface(variables=['ProcessorLoad','MemoryUsage'], output='CpuMem')
-    fig2 = FS2.plot_surface(variables=['OutNetThroughput','AvailOutBandwidth'], output='OutCongestion')
-    # # fig3 = FS3.plot_surface(variables=['OutCongestion','InpNetThroughput'], output='NetUsage')
-    # fig4 = FS_CLP.plot_surface(variables=['CpuMem','OutCongestion'], output='CLP')
+    if SHOW_3D:
+        fig = FS.plot_surface(variables=['ProcessorLoad','MemoryUsage'], output='CpuMem')
+        fig2 = FS2.plot_surface(variables=['OutNetThroughput','AvailOutBandwidth'], output='OutCongestion')
+        fig4 = FS_CLP.plot_surface(variables=['CpuMem','OutCongestion'], output='CLP')
 
-    if logging.getLogger().isEnabledFor(logging.DEBUG):
-    #     FS.plot_variable("ProcessorLoad")
-    #     FS.plot_variable("MemoryUsage")
+    if SHOW_2D:
+        FS.plot_variable("ProcessorLoad")
+        FS.plot_variable("MemoryUsage")
         FS2.plot_variable("OutNetThroughput")
         FS2.plot_variable("AvailOutBandwidth")
         FS2.plot_variable("OutCongestion")
-    #     # FS3.plot_variable("CpuMem")
-    #     # FS3.plot_variable("InpNetThroughput")
-    #     # FS3.plot_variable("HardBal")
-    #     FS_CLP.plot_variable("CpuMem")
-    #     FS_CLP.plot_variable("OutCongestion")
-    #     FS_CLP.plot_variable("CLP")
+        FS_CLP.plot_variable("CpuMem")
+        FS_CLP.plot_variable("OutCongestion")
+        FS_CLP.plot_variable("CLP")
 
 
     for index, row in df.iterrows():
@@ -171,14 +173,9 @@ if __name__ == '__main__':
         FS2.set_variable("AvailOutBandwidth", output_available_bandwidth)
         out_congestion = FS2.Mamdani_inference()["OutCongestion"]
 
-        # FS3.set_variable("OutCongestion", out_congestion)
-        # FS3.set_variable("InpNetThroughput", input_throughput)
-        # net_usage = FS3.Mamdani_inference(["NetUsage"])["NetUsage"]
-
         FS_CLP.set_variable("Latency", latency)
         FS_CLP.set_variable("CpuMem", cpu_mem)
         FS_CLP.set_variable("OutCongestion", out_congestion)
-        # FS_CLP.set_variable("NetUsage", net_usage)
         clp = FS_CLP.Mamdani_inference()["CLP"]
 
         logging.debug(f"CPU: {process_load}; Mem: {memory_usage}; {cpu_mem}")
