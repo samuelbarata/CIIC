@@ -116,20 +116,33 @@ CLP_4 = FuzzySet(function=Trapezoidal_MF(a=0, b=0.2, c=0.5, d=0.75), term="incre
 CLP_5 = FuzzySet(function=Trapezoidal_MF(a=0.5, b=0.75, c=1, d=1), term="increase_much")
 FS_CLP.add_linguistic_variable("CLP", LinguisticVariable([CLP_1, CLP_2, CLP_3, CLP_4, CLP_5], concept="CLP Variation", universe_of_discourse=[-1,1]))
 
+"""
+   Netowrk Congestion
+   ╭─────┬─────┬─────┬─────╮
+C  │     │  L  │  M  │  H  │
+p  ├─────┼─────┼─────┼─────┤
+u  │  L  │ ↑↑  │ ↑↑  │ ↑↑  │
+M  ├─────┼─────┼─────┼─────┤
+e  │  M  │  ↑  │  ↑  │  ↓  │
+m  ├─────┼─────┼─────┼─────┤
+   │  H  │ ↓↓  │  ↓  │  ↓  │
+   ╰─────┴─────┴─────┴─────╯
+"""
+
 # Rules
 RC = []
 
 RC.append("IF (CpuMem IS low) THEN CLP IS increase_much")
 RC.append("IF (CpuMem IS high) AND (OutCongestion IS low) THEN CLP IS decrease_much")
 RC.append("IF (CpuMem IS high) AND (OutCongestion IS medium) THEN CLP IS decrease")
-RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) THEN CLP IS decrease_much")
+RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) THEN CLP IS decrease")
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS low) THEN CLP IS increase")
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS medium) THEN CLP IS increase") # faz-me sentido ser manter, mas pelos testes não?
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) THEN CLP IS increase")
 
 FS_CLP.add_rules(RC)
 
-SHOW_3D = False
+SHOW_3D = True
 SHOW_2D = False
 LOGGING_LEVEL = logging.INFO
 # LOGGING_LEVEL = logging.DEBUG
