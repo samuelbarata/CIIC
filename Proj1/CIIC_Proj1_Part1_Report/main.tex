@@ -1,0 +1,99 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=footnotesize]{caption}
+\usepackage{vmargin}
+\usepackage{multirow}
+\usepackage{ctable}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tabularx}
+
+%Unidades SI
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{setspace}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{inputenc}
+\usepackage{lipsum}
+
+% more packages
+\usepackage{subfig}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{multirow}
+
+% \usepackage{biblatex}
+\newcommand{\vertfig}[2][]{%
+  \begin{minipage}{5in}\subfloat[#1]{#2}\end{minipage}}
+\newcommand{\horizfig}[2][]{%
+  \begin{minipage}{3in}\subfloat[#1]{#2}\end{minipage}}
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+    }
+
+\lstset{style=mystyle}
+\lstnewenvironment{code}{\lstset{language=C, basicstyle=\ttfamily, frame=single, numbers=left}}{}
+\setlength{\parindent}{0pt}
+\graphicspath{ {./imagens/} }
+% \addbibresource{references.bib}
+
+\newcommand{\polish}[1]{\textcolor{red}{#1}}
+
+\input{capa.tex}
+
+\begin{document}
+
+\maketitle
+
+% The report should contain the following:
+% Indicate the “architecture” of your FIS and the rationale you used to build it.
+% Include all the membership functions, linguistic terms, and rules.
+% Illustrative graphics are encouraged.
+% Also describe how you tested the system to see if it performed as you envisioned it, and any tunning and modifications you made until you reached the final version.
+% Add the results you obtained.
+
+\section{Introduction}
+\normalfont
+The explosive growth of Internet of Things (IoT) devices has resulted in a high volume of data being generated, but most of it is not exploited or used at all, since sending all that device-generated data to a centralized data center or to the cloud causes bandwidth and latency issues.
+
+One solution to this problem is to take advantage of the edge devices, using their spare computing capabilities to enable faster and more comprehensive data analysis, without exchange the data over to the cloud (which also reduces the network load).
+
+However, one should be aware not to exhaust the edge resources, to not compromise the normal operation of the edge devices or the network bandwidth.
+
+The objective of this project is to build an intelligent system that manages the computing load assigned for Edge computing tasks on an Edge device (CLP), without compromising the main role of the device. This consists on using edge devices to compute as much as it possibly can without affecting its own edge functionality and without increasing congestion on the network.
+
+\section{Fuzzy System}
+\input{1.fuzzy_system}
+
+\end{document}
