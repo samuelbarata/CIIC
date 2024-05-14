@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 from simpful import *
 import logging
 
-DATASET_PATH = 'CI4IoT23-24_Proj1_SampleData.csv'
-
 # TODO: Remove this line https://github.com/aresio/simpful/tree/master/examples
 
 # #### HARDWARE RESOURCES ####
@@ -28,14 +26,23 @@ T_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="mediu
 T_3 = FuzzySet(function=Trapezoidal_MF(a=0.7, b=0.75, c=1.0, d=1.0), term="high")
 FS.add_linguistic_variable("CpuMem", LinguisticVariable([T_1, T_2, T_3], concept="Hardware Resources", universe_of_discourse=[0,1]))
 
+"""
+   Memory Usage
+P  ╭───┬───┬───┬───╮
+r  │   │ L │ M │ H │
+o  ├───┼───┼───┼───┤
+c  │ L │ l │ m │ h │
+e  ├───┼───┼───┼───┤
+s  │ M │ m │ m │ h │
+s  ├───┼───┼───┼───┤
+o  │ H │ h │ h │ h │
+r  ╰───┴───┴───┴───╯
+"""
+
 R1 = []
-R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
-R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
-R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS high) THEN (CpuMem IS high)")
-R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS medium) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS high) OR (MemoryUsage IS high) THEN (CpuMem IS high)")
 R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
 R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
-R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS low) THEN (CpuMem IS high)")
 R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS low) THEN (CpuMem IS medium)")
 R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS low) THEN (CpuMem IS low)")
 FS.add_rules(R1)
@@ -131,7 +138,6 @@ m  ├─────┼─────┼─────┼─────┤
 
 # Rules
 RC = []
-
 RC.append("IF (CpuMem IS low) THEN CLP IS increase_much")
 RC.append("IF (CpuMem IS high) AND (OutCongestion IS low) THEN CLP IS decrease_much")
 RC.append("IF (CpuMem IS high) AND (OutCongestion IS medium) THEN CLP IS decrease")
@@ -142,13 +148,45 @@ RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) THEN CLP IS increas
 
 FS_CLP.add_rules(RC)
 
-SHOW_3D = True
-SHOW_2D = False
-LOGGING_LEVEL = logging.INFO
-# LOGGING_LEVEL = logging.DEBUG
+
+
+def read_input(FILE_NAME):
+   df = pd.read_csv(FILE_NAME)
+   return df
+
+def find_clp(memory_usage, process_load, input_throughput, output_throughput, output_available_bandwidth, latency, memory_usage_variation, process_load_variation, input_throughput_variation, output_throughput_variation, output_available_bandwidth_variation, latency_variation, clp_variation=None):
+    FS.set_variable("ProcessorLoad", process_load)
+    FS.set_variable("MemoryUsage", memory_usage)
+    cpu_mem = FS.Mamdani_inference()['CpuMem']
+
+    FS2.set_variable("OutNetThroughput", output_throughput)
+    FS2.set_variable("AvailOutBandwidth", output_available_bandwidth)
+    out_congestion = FS2.Mamdani_inference()["OutCongestion"]
+
+    FS_CLP.set_variable("Latency", latency)
+    FS_CLP.set_variable("InpNetThroughput", input_throughput)
+    FS_CLP.set_variable("CpuMem", cpu_mem)
+    FS_CLP.set_variable("OutCongestion", out_congestion)
+    clp = FS_CLP.Mamdani_inference()["CLP"]
+
+    logging.debug(f"CPU: {process_load}; Mem: {memory_usage}; {cpu_mem}")
+    logging.debug(f"OutThroughput: {output_throughput}; OutBandAvail: {output_available_bandwidth}; {out_congestion}")
+
+    info_text = f"Predicted CLP: {int(round(clp, 2)*100)}%"
+    if clp_variation is not None:
+        info_text += f" Expected CLP: {int(clp_variation*100)}%"
+    logging.info(info_text)
+
+    return clp
 
 if __name__ == '__main__':
-    df = pd.read_csv(DATASET_PATH)
+    SHOW_3D = False
+    SHOW_2D = False
+    LOGGING_LEVEL = logging.INFO
+    # LOGGING_LEVEL = logging.DEBUG
+    DATASET_PATH = 'CI4IoT23-24_Proj1_SampleData.csv'
+
+    df = read_input(DATASET_PATH)
     logging.basicConfig(level=LOGGING_LEVEL, format='%(levelname)s: %(message)s')
 
     if SHOW_3D:
@@ -168,35 +206,4 @@ if __name__ == '__main__':
 
 
     for index, row in df.iterrows():
-        memory_usage = row['MemoryUsage']
-        process_load = row['ProcessorLoad']
-        input_throughput = row['InpNetThroughput']
-        output_throughput = row['OutNetThroughput']
-        output_available_bandwidth = row['OutBandwidth']
-        latency = row['Latency']
-        memory_usage_variation = row['V_MemoryUsage']
-        process_load_variation = row['V_ProcessorLoad']
-        input_throughput_variation = row['V_InpNetThroughput']
-        output_throughput_variation = row['V_OutNetThroughput']
-        output_available_bandwidth_variation = row['V_OutBandwidth']
-        latency_variation = row['V_Latency']
-        clp_variation = row['CLPVariation']
-
-        # Set values
-        FS.set_variable("ProcessorLoad", process_load)
-        FS.set_variable("MemoryUsage", memory_usage)
-        cpu_mem = FS.Mamdani_inference()['CpuMem']
-
-        FS2.set_variable("OutNetThroughput", output_throughput)
-        FS2.set_variable("AvailOutBandwidth", output_available_bandwidth)
-        out_congestion = FS2.Mamdani_inference()["OutCongestion"]
-
-        FS_CLP.set_variable("Latency", latency)
-        FS_CLP.set_variable("InpNetThroughput", input_throughput)
-        FS_CLP.set_variable("CpuMem", cpu_mem)
-        FS_CLP.set_variable("OutCongestion", out_congestion)
-        clp = FS_CLP.Mamdani_inference()["CLP"]
-
-        logging.debug(f"CPU: {process_load}; Mem: {memory_usage}; {cpu_mem}")
-        logging.debug(f"OutThroughput: {output_throughput}; OutBandAvail: {output_available_bandwidth}; {out_congestion}")
-        logging.info(f"Predicted CLP: {int(round(clp, 2)*100)}%; Expected CLP: {int(clp_variation*100)}%")
+        find_clp(row['MemoryUsage'], row['ProcessorLoad'], row['InpNetThroughput'], row['OutNetThroughput'], row['OutBandwidth'], row['Latency'], row['V_MemoryUsage'], row['V_ProcessorLoad'], row['V_InpNetThroughput'], row['V_OutNetThroughput'], row['V_OutBandwidth'], row['V_Latency'], row['CLPVariation'])
