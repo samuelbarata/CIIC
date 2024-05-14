@@ -7,33 +7,6 @@ DATASET_PATH = 'CI4IoT23-24_Proj1_SampleData.csv'
 
 # TODO: Remove this line https://github.com/aresio/simpful/tree/master/examples
 
-
-# CPU
-
-FS_CPU = FuzzySystem(show_banner=False)
-
-MPL_V = []
-MPL_V.append(FuzzySet(function=Trapezoidal_MF(a=-1, b=-1, c=-0.5, d=0.25), term="low"))
-MPL_V.append(FuzzySet(function=Trapezoidal_MF(a=-0.5, b=-0.25, c=0.25, d=0.5), term="medium"))
-MPL_V.append(FuzzySet(function=Trapezoidal_MF(a=-0.25, b=0.5, c=1, d=1), term="high"))
-FS_CPU.add_linguistic_variable("V_ProcessorLoad", LinguisticVariable(MPL_V, concept="Processor Load Variation", universe_of_discourse=[-1,1]))
-
-PL_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.4, d=0.5), term="low")
-PL_2 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.6, c=0.70, d=0.8), term="medium")
-PL_3 = FuzzySet(function=Trapezoidal_MF(a=0.6, b=0.75, c=1.0, d=1.0), term="high")
-FS_CPU.add_linguistic_variable("ProcessorLoad", LinguisticVariable([PL_1, PL_2, PL_3], concept="Processor Load", universe_of_discourse=[0,1]))
-FS_CPU.add_linguistic_variable("MasterProcessor", LinguisticVariable([PL_1, PL_2, PL_3], concept="Master Processor", universe_of_discourse=[0,1]))
-
-MPL_RULES = []
-MPL_RULES.append("IF (ProcessorLoad IS high) THEN (MasterProcessor IS high)")
-MPL_RULES.append("IF (ProcessorLoad IS medium) AND (V_ProcessorLoad IS high) THEN (MasterProcessor IS high)")
-MPL_RULES.append("IF (ProcessorLoad IS medium) AND (V_ProcessorLoad IS low) THEN (MasterProcessor IS low)")
-MPL_RULES.append("IF (ProcessorLoad IS medium) AND (V_ProcessorLoad IS medium) THEN (MasterProcessor IS medium)")
-MPL_RULES.append("IF (ProcessorLoad IS low) THEN (MasterProcessor IS low)")
-
-FS_CPU.add_rules(MPL_RULES)
-
-
 # #### HARDWARE RESOURCES ####
 FS = FuzzySystem(show_banner=False)
 
@@ -124,9 +97,9 @@ FS2.add_rules(R2)
 
 FS_CLP = FuzzySystem(show_banner=False)
 
-# L_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.5, d=0.7), term="low")
-# L_3 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.5, c=1, d=1), term="high")
-# FS_CLP.add_linguistic_variable("Latency", LinguisticVariable([L_1, L_3], concept="Latency", universe_of_discourse=[0,1]))
+L_1 = FuzzySet(function=Trapezoidal_MF(a=0, b=0, c=0.5, d=0.7), term="low")
+L_3 = FuzzySet(function=Trapezoidal_MF(a=0.3, b=0.5, c=1, d=1), term="high")
+FS_CLP.add_linguistic_variable("Latency", LinguisticVariable([L_1, L_3], concept="Latency", universe_of_discourse=[0,1]))
 FS_CLP.add_linguistic_variable("CpuMem", LinguisticVariable([T_1, T_2, T_3], concept="Hardware Resources", universe_of_discourse=[0,1]))
 FS_CLP.add_linguistic_variable("OutCongestion", LinguisticVariable([OC_1, OC_2, OC_3], concept="Output Congestion", universe_of_discourse=[0,1]))
 
@@ -153,22 +126,6 @@ RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) THEN CLP IS decrease_
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS low) THEN CLP IS increase")
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS medium) THEN CLP IS increase") # faz-me sentido ser manter, mas pelos testes não?
 RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) THEN CLP IS increase")
-
-# RC.append("IF (CpuMem IS low) AND (InpNetThroughput IS low) THEN CLP IS increase_much")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS low) AND (InpNetThroughput IS low) THEN CLP IS decrease_much")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS medium) AND (InpNetThroughput IS low) THEN CLP IS decrease")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) AND (InpNetThroughput IS low) THEN CLP IS decrease_much")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS low) AND (InpNetThroughput IS low) THEN CLP IS increase")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS medium) AND (InpNetThroughput IS low) THEN CLP IS increase")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) AND (InpNetThroughput IS low) THEN CLP IS increase")
-
-# RC.append("IF (CpuMem IS low) AND (InpNetThroughput IS high) THEN CLP IS increase_much")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS low) AND (InpNetThroughput IS high) THEN CLP IS decrease_much")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS medium) AND (InpNetThroughput IS high) THEN CLP IS decrease")
-# RC.append("IF (CpuMem IS high) AND (OutCongestion IS high) AND (InpNetThroughput IS high) THEN CLP IS decrease")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS low) AND (InpNetThroughput IS high) THEN CLP IS increase")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS medium) AND (InpNetThroughput IS high) THEN CLP IS increase")
-# RC.append("IF (CpuMem IS medium) AND (OutCongestion IS high) AND (InpNetThroughput IS high) THEN CLP IS increase_much")
 
 FS_CLP.add_rules(RC)
 
@@ -212,12 +169,7 @@ if __name__ == '__main__':
         latency_variation = row['V_Latency']
         clp_variation = row['CLPVariation']
 
-        FS_CPU.set_variable("ProcessorLoad", process_load)
-        FS_CPU.set_variable("V_ProcessorLoad", process_load_variation)
-        master_processor = FS_CPU.Mamdani_inference()["MasterProcessor"]
-
         # Set values
-        # FS.set_variable("ProcessorLoad", master_processor)
         FS.set_variable("ProcessorLoad", process_load)
         FS.set_variable("MemoryUsage", memory_usage)
         cpu_mem = FS.Mamdani_inference()['CpuMem']
