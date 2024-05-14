@@ -1,5 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from simpful import *
 import logging
 
@@ -185,7 +184,7 @@ def find_clp(memory_usage, process_load, input_throughput, output_throughput, ou
     return clp
 
 if __name__ == '__main__':
-    SHOW_3D = True
+    SHOW_3D = False
     SHOW_2D = False
     LOGGING_LEVEL = logging.INFO
     #LOGGING_LEVEL = logging.DEBUG
@@ -195,20 +194,23 @@ if __name__ == '__main__':
     logging.basicConfig(level=LOGGING_LEVEL, format='%(levelname)s: %(message)s')
 
     if SHOW_3D:
-        # fig = FS_HDR.plot_surface(variables=['ProcessorLoad','MemoryUsage'], output='CpuMem')
-        # fig2 = FS_OUT.plot_surface(variables=['OutNetThroughput','AvailOutBandwidth'], output='OutCongestion')
+        fig = FS_HDR.plot_surface(variables=['ProcessorLoad','MemoryUsage'], output='CpuMem')
+        fig.savefig('images/CpuMem3D.png')
+        fig2 = FS_OUT.plot_surface(variables=['OutNetThroughput','AvailOutBandwidth'], output='OutCongestion')
+        fig2.savefig('images/OutCongestion3D.png')
         fig4 = FS_CLP.plot_surface(variables=['CpuMem','OutCongestion'], output='CLP')
+        fig4.savefig('images/CLP3D.png')
 
     if SHOW_2D:
-        FS_HDR.plot_variable("ProcessorLoad")
-        FS_HDR.plot_variable("MemoryUsage")
-        FS_HDR.plot_variable("CpuMem")
-        FS_OUT.plot_variable("OutNetThroughput")
-        FS_OUT.plot_variable("AvailOutBandwidth")
-        FS_OUT.plot_variable("OutCongestion")
-        FS_CLP.plot_variable("CpuMem")
-        FS_CLP.plot_variable("OutCongestion")
-        FS_CLP.plot_variable("CLP")
+        FS_HDR.plot_variable("ProcessorLoad", outputfile='images/ProcessorLoad.png')
+        FS_HDR.plot_variable("MemoryUsage", outputfile='images/MemoryUsage.png')
+        FS_HDR.plot_variable("CpuMem", outputfile='images/CpuMem.png')
+        FS_OUT.plot_variable("OutNetThroughput", outputfile='images/OutNetThroughput.png')
+        FS_OUT.plot_variable("AvailOutBandwidth", outputfile='images/AvailOutBandwidth.png')
+        FS_OUT.plot_variable("OutCongestion", outputfile='images/OutCongestion.png')
+        FS_CLP.plot_variable("CpuMem", outputfile='images/CpuMemCLP.png')
+        FS_CLP.plot_variable("OutCongestion", outputfile='images/OutCongestionCLP.png')
+        FS_CLP.plot_variable("CLP", outputfile='images/CLP.png')
 
 
     for index, row in df.iterrows():
