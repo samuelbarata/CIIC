@@ -35,12 +35,14 @@ c  │ L │ l │ m │ h │
 e  ├───┼───┼───┼───┤
 s  │ M │ m │ m │ h │
 s  ├───┼───┼───┼───┤
-o  │ H │ h │ h │ h │
+o  │ H │ h │ h │ vh│
 r  ╰───┴───┴───┴───╯
 """
 
 R1 = []
-R1.append("IF (ProcessorLoad IS high) OR (MemoryUsage IS high) THEN (CpuMem IS high)")
+R1.append("IF (ProcessorLoad IS high) AND (MemoryUsage IS high) THEN (CpuMem IS very_high)")
+R1.append("IF (ProcessorLoad IS high) AND (NOT (MemoryUsage IS high)) THEN (CpuMem IS high)")
+R1.append("IF (MemoryUsage IS high) AND (NOT (ProcessorLoad IS high)) THEN (CpuMem IS high)")
 R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
 R1.append("IF (ProcessorLoad IS low) AND (MemoryUsage IS medium) THEN (CpuMem IS medium)")
 R1.append("IF (ProcessorLoad IS medium) AND (MemoryUsage IS low) THEN (CpuMem IS medium)")
@@ -184,7 +186,7 @@ def find_clp(memory_usage, process_load, input_throughput, output_throughput, ou
     return clp
 
 if __name__ == '__main__':
-    SHOW_3D = False
+    SHOW_3D = True
     SHOW_2D = False
     LOGGING_LEVEL = logging.INFO
     #LOGGING_LEVEL = logging.DEBUG
