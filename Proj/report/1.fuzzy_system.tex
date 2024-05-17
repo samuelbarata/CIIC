@@ -67,7 +67,7 @@ The Membership Functions for our fuzzy systems are presented in the figures \ref
 \begin{figure}[!htb]
     \centering
     \hspace*{-1cm}
-    
+
     \includegraphics[width=.33\textwidth]{images/plots/ProcessorLoad.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/MemoryUsage.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/CpuMemCLP.png}
@@ -80,11 +80,11 @@ The Membership Functions for our fuzzy systems are presented in the figures \ref
 \begin{figure}[!htb]
     \centering
     \hspace*{-1cm}
-    
+
     \includegraphics[width=.33\textwidth]{images/plots/OutNetThroughput.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/AvailOutBandwidth.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/OutCongestion.png}
-    
+
     \hspace*{-1cm}
     \caption{Membership functions for the "Output Congestion" Fuzzy System}
     \label{fig:FS_OUTC_FSETS}
@@ -93,11 +93,11 @@ The Membership Functions for our fuzzy systems are presented in the figures \ref
 \begin{figure}[!htb]
     \centering
     \hspace*{-1cm}
-    
+
     \includegraphics[width=.33\textwidth]{images/plots/CpuMem.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/OutCongestion.png}\hfill
     \includegraphics[width=.33\textwidth]{images/plots/CLP.png}
-    
+
     \hspace*{-1cm}
     \caption{Membership functions for the "CLP Variation" Fuzzy System}
     \label{fig:FS_CLP_FSETS}
@@ -114,18 +114,18 @@ Because the output of our final Fuzzy System is a Fuzzy Set, we decided to use a
                 \hline
                 & & \multicolumn{3}{c|}{Processor Load} \\
                 \hline
-                \multirow{4}{4em}{Memory} 
-                &        & Low   & Medium & High \\ 
-                & Low    & L     & M      & H \\ 
-                & Medium & M     & M      & H \\ 
-                & High   & H     & H      & H \\ 
+                \multirow{4}{4em}{Memory}
+                &        & Low   & Medium & High\\
+                & Low    & L     & M      & H   \\
+                & Medium & M     & M      & H   \\
+                & High   & H     & H      & VH   \\
                 \hline
             \end{tabular}
             \caption{FAM for Hardware Resources Fuzzy Rules}
             \label{tab:FAM_HDR}
         \end{center}
     \end{table}
-    
+
     \item \textbf{Output Congestion Fuzzy System}
     \begin{table}[!htb]
         \begin{center}
@@ -133,18 +133,18 @@ Because the output of our final Fuzzy System is a Fuzzy Set, we decided to use a
                 \hline
                 & & \multicolumn{3}{c|}{Output Bandwidth Available} \\
                 \hline
-                \multirow{4}{4em}{Network Throughput} 
-                &        & Low   & Medium & High \\ 
-                & Low    & M     & L      & L    \\ 
-                & Medium & H     & M      & M    \\ 
-                & High   & H     & H      & H    \\ 
+                \multirow{4}{4em}{Network Throughput}
+                &        & Low   & Medium & High \\
+                & Low    & M     & L      & L    \\
+                & Medium & H     & M      & M    \\
+                & High   & H     & H      & H    \\
                 \hline
             \end{tabular}
             \caption{FAM for Output Congestion Fuzzy Rules}
             \label{tab:FAM_OUTC}
         \end{center}
     \end{table}
-    
+
     \item \textbf{CLP Variation Fuzzy System}
     \begin{table}[!htb]
         \begin{center}
@@ -152,11 +152,11 @@ Because the output of our final Fuzzy System is a Fuzzy Set, we decided to use a
                 \hline
                 & & \multicolumn{3}{c|}{Output Congestion} \\
                 \hline
-                \multirow{5}{6em}{Hardware Resources} 
-                &             & Low   & Medium & High \\ 
-                & Low         & ↑↑    & ↑↑     & ↑↑    \\ 
-                & Medium      & 0     & ↑      & ↓    \\ 
-                & High        & ↓↓    & ↓      & ↓    \\ 
+                \multirow{5}{6em}{Hardware Resources}
+                &             & Low   & Medium & High \\
+                & Low         & ↑↑    & ↑↑     & ↑↑    \\
+                & Medium      & 0     & ↑      & ↓    \\
+                & High        & ↓↓    & ↓      & ↓    \\
                 & Very High   & ↓↓    & ↓↓     & ↓↓   \\
                 \hline
             \end{tabular}
@@ -171,7 +171,7 @@ In figures \ref{fig:FS_CpuMem_OUT}, \ref{fig:FS_OutCongestion_OUT} and \ref{fig:
 
 \begin{figure}[!htb]
     \centering
-    
+
     \includegraphics[width=.6\textwidth]{images/plots/CpuMem3D_better.png}\hfill
 
     \caption{Surface induced by the Hardware Resources Fuzzy System}
@@ -180,22 +180,23 @@ In figures \ref{fig:FS_CpuMem_OUT}, \ref{fig:FS_OutCongestion_OUT} and \ref{fig:
 
 \begin{figure}[!htb]
     \centering
-    
+
     \includegraphics[width=.6\textwidth]{images/plots/OutCongestion3D.png}\hfill
-    
+
     \caption{Surface induced by the  Output Congestion Fuzzy System}
     \label{fig:FS_OutCongestion_OUT}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
-    
+
     \includegraphics[width=.6\textwidth]{images/plots/CLP3D_better.png}\hfill
-    
+
     \caption{Surface induced by the Computing Load Variation Fuzzy System}
     \label{fig:FS_CLP_OUT}
 \end{figure}
 
+\newpage
 
 \subsection{Testing and Results}
 
@@ -214,10 +215,10 @@ For the dataset provided, we obtained the results in table \ref{tab:RESULTS_CLP}
             81\% & 73\% \\
             59\% & 50\% \\
             52\% & 12\% \\
-            -48\% & -31\% \\
-            -48\% & -65\% \\
-            -54\% & -82\% \\
-            -54\% & -85\% \\
+            -49\% & -31\% \\
+            -49\% & -65\% \\
+            -53\% & -82\% \\
+            -57\% & -85\% \\
             \hline
         \end{tabular}
         \caption{Predicted vs Expected \textit{CLP Variation}}

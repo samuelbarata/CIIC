@@ -186,7 +186,7 @@ def find_clp(memory_usage, process_load, input_throughput, output_throughput, ou
     return clp
 
 if __name__ == '__main__':
-    SHOW_3D = True
+    SHOW_3D = False
     SHOW_2D = False
     LOGGING_LEVEL = logging.INFO
     #LOGGING_LEVEL = logging.DEBUG
