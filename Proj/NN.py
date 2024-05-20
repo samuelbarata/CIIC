@@ -2,28 +2,20 @@ import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.utils.multiclass import type_of_target
 import logging
 import pickle
 
 """
-- Training set: A set of examples used for learning, that is to fit the parameters of the classifier.
+- Training set: A set of examples used for learning, that is to fit the parameters of the model.
 
-- Validation set: A set of examples used to tune the parameters of a classifier, for example to choose the number of hidden units in a neural network.
+- Validation set: A set of examples used to tune the parameters of a model, for example to choose the number of hidden units in a neural network.
 
-- Test set: A set of examples used only to assess the performance of a fully-specified classifier.
+- Test set: A set of examples used only to assess the performance of a fully-specified model.
 """
 
-def transform_target(y):
-    """Transform the continuous output into discrete classes."""
-    bins = [-np.inf, -0.2, 0.2, np.inf]
-    labels = ['Decrease', 'Maintain', 'Increase']
-    y_class = pd.cut(y, bins=bins, labels=labels)
-    return y_class.cat.codes
-
-def train(data, target, hidden_layer_sizes=(1,), transform_function=None):
+def train(data, target, hidden_layer_sizes=(1,)):
     if transform_function is not None:
         target = transform_function(target)
 
@@ -37,20 +29,13 @@ def train(data, target, hidden_layer_sizes=(1,), transform_function=None):
     mlp.fit(data, target)
     return mlp
 
-def test(mlp: MLPRegressor, data, target, transform_function=None):
+def test(mlp: MLPRegressor, data, target):
     y_pred = mlp.predict(data)
     if transform_function is not None:
         target = transform_function(target)
 
     mse = mean_squared_error(target, y_pred)
     logging.info(f"MSE: {mse}")
-
-    if transform_function:
-        accuracy = accuracy_score(target, y_pred)
-        logging.info(f"ACCURACY: {accuracy}")
-        logging.info(f"Classification Report for Test Set:\n{classification_report(target, y_pred)}")
-        logging.info(f"Confusion Matrix for Test Set:\n{confusion_matrix(target, y_pred)}")
-
     return y_pred
 
 if __name__ == '__main__':
@@ -106,7 +91,7 @@ if __name__ == '__main__':
         target_pred = best_mlp.predict(data_validate)
         mse = mean_squared_error(target_validate, target_pred)
         logging.info(f"Mean Squared Error with best parameters: {mse}")
-    
+
     else:
         mlp = train(learn_data, learn_target, (8,3))
         with open(MLP_PATH, "wb") as file:
