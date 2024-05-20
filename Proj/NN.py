@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -16,12 +17,15 @@ import logging
 
 def transform_target(y):
     """Transform the continuous output into discrete classes."""
-    bins = [-1, -0.2, 0.2, 1]
+    bins = [-np.inf, -0.2, 0.2, np.inf]
     labels = ['Decrease', 'Maintain', 'Increase']
     y_class = pd.cut(y, bins=bins, labels=labels)
-    return y_class
+    return y_class.cat.codes
 
-def train(data, target, hidden_layer_sizes=(1,)):
+def train(data, target, hidden_layer_sizes=(1,), transform_function=None):
+    if transform_function is not None:
+        target = transform_function(target)
+
     mlp = MLPRegressor(
         hidden_layer_sizes=hidden_layer_sizes,
         activation='tanh',
@@ -32,23 +36,19 @@ def train(data, target, hidden_layer_sizes=(1,)):
     mlp.fit(data, target)
     return mlp
 
-def test(mlp: MLPRegressor, data, target):
-    # target = target.to_list()
-
-    # print(type_of_target(target))
+def test(mlp: MLPRegressor, data, target, transform_function=None):
     y_pred = mlp.predict(data)
+    if transform_function is not None:
+        target = transform_function(target)
+
     mse = mean_squared_error(target, y_pred)
     logging.info(f"MSE: {mse}")
-    # print(type(y_pred), type(target))
-    # target = [0 for _ in range(50000000)]
-    # target = [1,2,3,4]
-    # y_pred = [1,2,3,4]
 
-    # print(accuracy_score(target, y_pred))
-    # accuracy = accuracy_score(target, y_pred)
-    # logging.info(f"ACCURACY: {accuracy}")
-    # logging.info(f"Classification Report for Test Set:\n{classification_report(target, y_pred)}")
-    # logging.info(f"Confusion Matrix for Test Set:\n{confusion_matrix(target, y_pred)}")
+    if transform_function:
+        accuracy = accuracy_score(target, y_pred)
+        logging.info(f"ACCURACY: {accuracy}")
+        logging.info(f"Classification Report for Test Set:\n{classification_report(target, y_pred)}")
+        logging.info(f"Confusion Matrix for Test Set:\n{confusion_matrix(target, y_pred)}")
     return mse
 
 if __name__ == '__main__':
@@ -59,6 +59,7 @@ if __name__ == '__main__':
     # truly random values
     TEST_DATA = 'data/TestResult-FSS_rng.csv'
     FIND_BEST_MATCH = False
+    CLASSIFIER = True
 
     logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s: %(message)s')
 
@@ -80,7 +81,7 @@ if __name__ == '__main__':
         # Define the parameter grid
         parameter_grid = {
             #'hidden_layer_sizes': [(x,) for x in range(1, 21, 1)],
-            'hidden_layer_sizes': [(x,) for x in range(1, 11, 1)],
+            'hidden_layer_sizes': [(x,) for x in range(1, 11, 1)] + [(x,y) for x in range(1,100,1) for y in range(1,60,1)],
             'activation': ['tanh'], # ['relu', 'identity', 'logistic', 'tanh']
             'solver': ['adam'],                  # ['lbfgs', 'sgd', 'adam']
             'alpha': [0.0001],
@@ -101,7 +102,7 @@ if __name__ == '__main__':
         mse = mean_squared_error(target_validate, target_pred)
         logging.info(f"Mean Squared Error with best parameters: {mse}")
     else:
-        mlp = train(learn_data, learn_target, (9,))
+        mlp = train(learn_data, learn_target, (10,4))
         mse_validate = test(mlp, data_validate, target_validate)
         logging.info(f"VALIDATE MSE: {mse_validate}")
         mse_test = test(mlp, data_test, target_test)
