@@ -16,9 +16,6 @@ import pickle
 """
 
 def train(data, target, hidden_layer_sizes=(1,)):
-    if transform_function is not None:
-        target = transform_function(target)
-
     mlp = MLPRegressor(
         hidden_layer_sizes=hidden_layer_sizes,
         activation='relu',
@@ -31,8 +28,6 @@ def train(data, target, hidden_layer_sizes=(1,)):
 
 def test(mlp: MLPRegressor, data, target):
     y_pred = mlp.predict(data)
-    if transform_function is not None:
-        target = transform_function(target)
 
     mse = mean_squared_error(target, y_pred)
     logging.info(f"MSE: {mse}")
