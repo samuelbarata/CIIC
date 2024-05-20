@@ -16,6 +16,9 @@ plt.ylabel('NN_Regression')
 
 # linear regression
 m, b = np.polyfit(x, y, 1)
-plt.plot(x, m*x + b)
+plt.plot(x, m*x + b, color='blue', label='Linear Regression')
+plt.plot(x, x, color='green', label='Y=x')
+plt.legend(loc="upper left")
+
 plt.show()
 
