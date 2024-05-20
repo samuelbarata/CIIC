@@ -80,7 +80,7 @@ target = df_test['CLPVariation']
 
 data_test, data_validate, target_test, target_validate = train_test_split(data, target, test_size=0.5, random_state=42)
 data_test.to_csv('data/data_test.csv', index=False)
-data_validate.to_csv('data/target_validate.csv', index=False)
+data_validate.to_csv('data/data_validate.csv', index=False)
 target_test.to_csv('data/target_test.csv', index=False)
 target_validate.to_csv('data/target_validate.csv', index=False)
 
