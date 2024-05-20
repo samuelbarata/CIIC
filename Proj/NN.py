@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.utils.multiclass import type_of_target
 import logging
+import pickle
 
 """
 - Training set: A set of examples used for learning, that is to fit the parameters of the classifier.
@@ -28,9 +29,9 @@ def train(data, target, hidden_layer_sizes=(1,), transform_function=None):
 
     mlp = MLPRegressor(
         hidden_layer_sizes=hidden_layer_sizes,
-        activation='tanh',
+        activation='relu',
         solver='adam',
-        max_iter=1000,
+        max_iter=2000,
         random_state=42
     )
     mlp.fit(data, target)
@@ -49,17 +50,25 @@ def test(mlp: MLPRegressor, data, target, transform_function=None):
         logging.info(f"ACCURACY: {accuracy}")
         logging.info(f"Classification Report for Test Set:\n{classification_report(target, y_pred)}")
         logging.info(f"Confusion Matrix for Test Set:\n{confusion_matrix(target, y_pred)}")
-    return mse
+
+    return y_pred
 
 if __name__ == '__main__':
     LOG_LEVEL = logging.INFO
     # LOG_LEVEL = logging.DEBUG
-    # values linearly distributed
+
     LEARN_DATA = 'data/TestResult-FSS_10_rng.csv'
-    # truly random values
-    TEST_DATA = 'data/TestResult-FSS_rng.csv'
+
+    DATA_VALIDATE = 'data/data_validate.csv'
+    TARGET_VALIDATE = 'data/target_validate.csv'
+
+    DATA_TEST = 'data/data_test.csv'
+    TARGET_TEST = 'data/target_test.csv'
+
+    MLP_PATH = 'mlp.pickle'
+
     FIND_BEST_MATCH = False
-    CLASSIFIER = True
+
 
     logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s: %(message)s')
 
@@ -67,26 +76,22 @@ if __name__ == '__main__':
     learn_data = df_learn[['MemoryUsage', 'ProcessorLoad', 'OutNetThroughput', 'OutBandwidth']]
     learn_target = df_learn['CLPVariation']
 
-    df_test = pd.read_csv(TEST_DATA)
-    data = df_test[['MemoryUsage', 'ProcessorLoad', 'OutNetThroughput', 'OutBandwidth']]
-    target = df_test['CLPVariation']
+    data_validate = pd.read_csv(DATA_VALIDATE)
+    target_validate = pd.read_csv(TARGET_VALIDATE)
 
-    data_test, data_validate, target_test, target_validate = train_test_split(data, target, test_size=0.5, random_state=42)
-    target_test.to_csv('/tmp/target_test.csv', index=False)
+    data_test = pd.read_csv(DATA_TEST)
+    target_test = pd.read_csv(TARGET_TEST)
 
 
     if FIND_BEST_MATCH:
-        hidden_layer_sizes = [(x,) for x in range(1, 11, 1)] + [(x, y) for x in range(1, 11, 1) for y in range(1, 11, 1)]
-
         # Define the parameter grid
         parameter_grid = {
-            #'hidden_layer_sizes': [(x,) for x in range(1, 21, 1)],
-            'hidden_layer_sizes': [(x,) for x in range(1, 11, 1)] + [(x,y) for x in range(1,100,1) for y in range(1,60,1)],
-            'activation': ['tanh'], # ['relu', 'identity', 'logistic', 'tanh']
-            'solver': ['adam'],                  # ['lbfgs', 'sgd', 'adam']
+            'hidden_layer_sizes': [(x,) for x in range(1, 11, 1)] + [(x,y) for x in range(1,30,1) for y in range(1,11,1)],
+            'activation': ['relu', 'identity', 'logistic', 'tanh'],
+            'solver': ['lbfgs', 'sgd', 'adam'],
             'alpha': [0.0001],
             'learning_rate': ['constant'],
-            'max_iter': [1000]
+            'max_iter': [2000]
         }
 
         mlp = MLPRegressor(random_state=42)
@@ -101,9 +106,12 @@ if __name__ == '__main__':
         target_pred = best_mlp.predict(data_validate)
         mse = mean_squared_error(target_validate, target_pred)
         logging.info(f"Mean Squared Error with best parameters: {mse}")
+    
     else:
-        mlp = train(learn_data, learn_target, (10,4))
-        mse_validate = test(mlp, data_validate, target_validate)
-        logging.info(f"VALIDATE MSE: {mse_validate}")
-        mse_test = test(mlp, data_test, target_test)
-        logging.info(f"TEST MSE: {mse_test}")
+        mlp = train(learn_data, learn_target, (8,3))
+        with open(MLP_PATH, "wb") as file:
+            pickle.dump(mlp, file)
+        logging.info(f"VALIDATE MSE:")
+        test(mlp, data_validate, target_validate)
+        logging.info(f"TEST MSE:")
+        test(mlp, data_test, target_test)
