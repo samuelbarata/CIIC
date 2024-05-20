@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
@@ -15,7 +14,7 @@ def transform_target(y):
     y_class = pd.cut(y, bins=bins, labels=labels)
     return y_class
 
-def test(mlp: MLPClassifier, data, target):
+def test(mlp, data, target):
     y_pred = mlp.predict(data)
     y_pred = transform_target(y_pred)
     accuracy = accuracy_score(target, y_pred)
