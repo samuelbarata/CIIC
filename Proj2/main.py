@@ -34,8 +34,8 @@ def eval_route(individual):
     current_point = CENTRAL
 
     for visited, next_point in enumerate(individual):
-        total_distance += distance_matrix[current_point, next_point]
-        current_point = next_point
+        total_distance += distance_matrix[current_point, eco_points[next_point]]
+        current_point = eco_points[next_point]
 
         if current_point in PENALITY_POINTS and visited > PENALITY[0]:
             total_distance *= PENALITY[1]
@@ -60,12 +60,16 @@ toolbox.register("select", tools.selTournament, tournsize=3)
 toolbox.register("evaluate", eval_route)
 
 def save_route(individual):
-	route = [CENTRAL] + individual
-	logging.debug(route)
-	distances = [distance_matrix[route[i], route[i + 1]] for i in range(len(route) - 1)]
+	route = [CENTRAL] + [eco_points[idx]  for idx in individual] + [CENTRAL]
+	distances = [distance_matrix[route[i], route[i + 1]] for i in range(len(route) -1)]
 	total_distance = sum(distances)
 
-	route_str = 'C, ' + ', '.join(f'{d:.1f}E{eco_points[i]}' for i, d in enumerate(distances)) + f', Total={total_distance:.1f}'
+	route_str = 'C, '
+	for idx, distance in enumerate(distances[:-1]):
+		route_str += f'{distance:.1f}E{eco_points[idx]}, '
+	route_str += f'{distances[-1]:.1f}C, Total={total_distance:.1f}'
+	logging.debug(route_str)
+
 	with open('best_route.txt', 'w') as f:
 		f.write(route_str)
 
