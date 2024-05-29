@@ -6,11 +6,11 @@ import random
 import multiprocessing
 import time
 
-POPULATION = 500
+POPULATION = 2000
 MUTAION_PROBABILITY = 0.2
 CROSSOVER_PROBABILITY = 0.7
-NUMBER_OF_GENERATIONS = 500
-TOURNAMENT_SIZE = 10
+NUMBER_OF_GENERATIONS = 6000
+TOURNAMENT_SIZE = 50
 
 INPUT_FILE = 'Project2_DistancesMatrix.xlsx'
 ECO_POINTS_FILE = 'eco_points.csv'
@@ -29,16 +29,10 @@ logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s: %(message)s')
 PENALITY = (30, 1.4)
 PENALITY_POINTS = [3, 43, 52, 53, 58, 69, 71, 72, 73, 74, 75, 76, 77, 78, 92]
 
-def get_distance(i, j, matrix=distance_matrix):
-	"""
-	Retrieves the distance between two EcoPoints from the distance matrix.
-	"""
-	return matrix[i, j]
 
 # Define the fitness function
 def eval_route(individual):
     total_distance = 0
-    num_points = len(individual)
     current_point = CENTRAL
 
     for visited, next_point in enumerate(individual):
