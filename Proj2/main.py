@@ -4,6 +4,7 @@ import numpy as np
 import logging
 import random
 import multiprocessing
+import time
 
 POPULATION = 500
 MUTAION_PROBABILITY = 0.2
@@ -20,7 +21,7 @@ eco_points = pd.read_csv(ECO_POINTS_FILE, header=None).values.flatten()
 # Central point index
 CENTRAL = 0
 LOG_LEVEL = logging.INFO
-LOG_LEVEL = logging.DEBUG
+# LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s: %(message)s')
 
 
@@ -79,8 +80,10 @@ def save_route(individual):
 
 	with open('best_route.txt', 'w') as f:
 		f.write(route_str)
+	return route_str
 
 if '__main__' == __name__:
+	start_time = time.time()
 	pool = multiprocessing.Pool()
 	toolbox.register("map", pool.map)
 
@@ -92,10 +95,11 @@ if '__main__' == __name__:
 	stats.register("min", np.min)
 	stats.register("avg", np.mean)
 
-	algorithms.eaSimple(pop, toolbox, cxpb=CROSSOVER_PROBABILITY, mutpb=MUTAION_PROBABILITY, ngen=NUMBER_OF_GENERATIONS, stats=stats, halloffame=hof, verbose=True)
+	algorithms.eaSimple(pop, toolbox, cxpb=CROSSOVER_PROBABILITY, mutpb=MUTAION_PROBABILITY, ngen=NUMBER_OF_GENERATIONS, stats=stats, halloffame=hof, verbose=LOG_LEVEL == logging.DEBUG)
 
 	logging.debug(hof[0])
 
 	best_ind = hof[0]
-	logging.info(f"Best individual is: {best_ind} with distance: {best_ind.fitness.values[0]}")
-	save_route(best_ind)
+	logging.debug(f"Best individual is: {best_ind} with distance: {best_ind.fitness.values[0]}")
+	logging.info(f"Execution time: {time.time() - start_time:.2f} seconds")
+	logging.info(save_route(best_ind))
