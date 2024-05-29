@@ -3,6 +3,13 @@ from deap import base, creator, tools, algorithms
 import numpy as np
 import logging
 import random
+import multiprocessing
+
+POPULATION = 500
+MUTAION_PROBABILITY = 0.2
+CROSSOVER_PROBABILITY = 0.7
+NUMBER_OF_GENERATIONS = 500
+TOURNAMENT_SIZE = 10
 
 INPUT_FILE = 'Project2_DistancesMatrix.xlsx'
 ECO_POINTS_FILE = 'eco_points.csv'
@@ -56,7 +63,7 @@ toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 toolbox.register("mate", tools.cxOrdered)
 toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
-toolbox.register("select", tools.selTournament, tournsize=3)
+toolbox.register("select", tools.selTournament, tournsize=TOURNAMENT_SIZE)
 toolbox.register("evaluate", eval_route)
 
 def save_route(individual):
@@ -74,15 +81,18 @@ def save_route(individual):
 		f.write(route_str)
 
 if '__main__' == __name__:
+	pool = multiprocessing.Pool()
+	toolbox.register("map", pool.map)
+
 	random.seed(42)
-	pop = toolbox.population(n=300)
+	pop = toolbox.population(n=POPULATION)
 	hof = tools.HallOfFame(1)
 
 	stats = tools.Statistics(lambda ind: ind.fitness.values)
 	stats.register("min", np.min)
 	stats.register("avg", np.mean)
 
-	algorithms.eaSimple(pop, toolbox, cxpb=0.7, mutpb=0.2, ngen=500, stats=stats, halloffame=hof, verbose=True)
+	algorithms.eaSimple(pop, toolbox, cxpb=CROSSOVER_PROBABILITY, mutpb=MUTAION_PROBABILITY, ngen=NUMBER_OF_GENERATIONS, stats=stats, halloffame=hof, verbose=True)
 
 	logging.debug(hof[0])
 
