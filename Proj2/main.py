@@ -6,11 +6,11 @@ import random
 import multiprocessing
 import time
 
-POPULATION = 2000
-MUTAION_PROBABILITY = 0.2
+POPULATION = 250
+MUTATION_PROBABILITY = 0.2
 CROSSOVER_PROBABILITY = 0.7
-NUMBER_OF_GENERATIONS = 6000
-TOURNAMENT_SIZE = 50
+NUMBER_OF_GENERATIONS = 600
+TOURNAMENT_SIZE = 10
 
 INPUT_FILE = 'Project2_DistancesMatrix.xlsx'
 ECO_POINTS_FILE = 'eco_points.csv'
@@ -32,18 +32,19 @@ PENALITY_POINTS = [3, 43, 52, 53, 58, 69, 71, 72, 73, 74, 75, 76, 77, 78, 92]
 
 # Define the fitness function
 def eval_route(individual):
-    total_distance = 0
-    current_point = CENTRAL
+	total_distance = 0
+	current_point = CENTRAL
 
-    for visited, next_point in enumerate(individual):
-        total_distance += distance_matrix[current_point, eco_points[next_point]]
-        current_point = eco_points[next_point]
+	for visited, next_point in enumerate(individual):
+		distance = distance_matrix[current_point, eco_points[next_point]]
+		if current_point in PENALITY_POINTS and visited > PENALITY[0]:
+			total_distance += PENALITY[1]*distance
+		else:
+			total_distance += distance
+		current_point = eco_points[next_point]
 
-        if current_point in PENALITY_POINTS and visited > PENALITY[0]:
-            total_distance *= PENALITY[1]
-
-    total_distance += distance_matrix[current_point, CENTRAL]  # Return to the central point
-    return total_distance,
+	total_distance += distance_matrix[current_point, CENTRAL]  # Return to the central point
+	return total_distance,
 
 # Genetic Algorithm Setup
 creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
@@ -89,7 +90,7 @@ if '__main__' == __name__:
 	stats.register("min", np.min)
 	stats.register("avg", np.mean)
 
-	algorithms.eaSimple(pop, toolbox, cxpb=CROSSOVER_PROBABILITY, mutpb=MUTAION_PROBABILITY, ngen=NUMBER_OF_GENERATIONS, stats=stats, halloffame=hof, verbose=LOG_LEVEL == logging.DEBUG)
+	algorithms.eaSimple(pop, toolbox, cxpb=CROSSOVER_PROBABILITY, mutpb=MUTATION_PROBABILITY, ngen=NUMBER_OF_GENERATIONS, stats=stats, halloffame=hof, verbose=LOG_LEVEL == logging.DEBUG)
 
 	logging.debug(hof[0])
 
