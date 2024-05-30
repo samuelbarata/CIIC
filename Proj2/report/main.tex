@@ -1,0 +1,96 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=footnotesize]{caption}
+\usepackage{vmargin}
+\usepackage{multirow}
+\usepackage{ctable}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tabularx}
+
+%Unidades SI
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{setspace}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{inputenc}
+\usepackage{lipsum}
+
+% more packages
+\usepackage{subfig}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{arydshln}
+\usepackage{makecell}
+\usepackage{changepage}
+
+% \usepackage{biblatex}
+\newcommand{\vertfig}[2][]{%
+  \begin{minipage}{5in}\subfloat[#1]{#2}\end{minipage}}
+\newcommand{\horizfig}[2][]{%
+  \begin{minipage}{3in}\subfloat[#1]{#2}\end{minipage}}
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+    }
+
+\lstset{style=mystyle}
+\lstnewenvironment{code}{\lstset{language=C, basicstyle=\ttfamily, frame=single, numbers=left}}{}
+\setlength{\parindent}{0pt}
+% \graphicspath{ {./imagens/} }
+% \addbibresource{references.bib}
+
+\newcommand{\polish}[1]{\textcolor{red}{#1}}
+
+\input{capa.tex}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+\normalfont
+The Oeiras Municipality has implemented an innovative system for the collection of recyclable materials using intelligent EcoPoints. These EcoPoints, equipped with sensors, can detect and predict when they are full and communicate this information daily at 00:29 to a central system. By 00:30 each day, a routing program must determine the optimal path for a garbage truck to collect recyclables from the full EcoPoints. Typically, the truck visits around 30 EcoPoints per day, but the system must be capable of handling up to 100 EcoPoints.
+
+The objective of this project is to develop an intelligent routing system that calculates the shortest route starting from a central location (C), visiting all specified EcoPoints (Ei), and returning to the central location. This route must be computed within 20 minutes to ensure timely collection and avoid additional labor costs.
+
+This report details the design and implementation of a Genetic Algorithm (GA) to solve this routing problem, including the optimization of various parameters to achieve efficient and reliable performance.
+
+
+\section{Heuristic Optimization using GA}
+\label{sec:heuristic_optimization}
+\input{1.GA}
+
+\end{document}

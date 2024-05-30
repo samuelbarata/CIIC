@@ -1,0 +1,169 @@
+% \subsection{Introduction}
+
+\subsection{Experimental Analysis of GA Parameters}
+
+In our project, we aimed to optimize the performance of a Genetic Algorithm (GA) by systematically varying its key parameters.
+The primary variables under consideration were population size, mutation probability, crossover probability, number of generations, and tournament size.
+Table \ref{tab:GA_VARS} lists the final values of these parameters, which were determined through experimentation.
+These values produce an output for 99 EcoPoints with an average of 16 seconds.
+
+
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Variable} & \textbf{Value} \\ \hline
+        Population & 250 \\ \hline
+        Mutation Probability & 0.2 \\ \hline
+        Crossover Probability & 0.7 \\ \hline
+        Number of Generations & 600 \\ \hline
+        Tournament Size & 10 \\ \hline
+    \end{tabular}
+    \caption{GA Variables}
+    \label{tab:GA_VARS}
+\end{center}
+\end{table}
+
+\subsection{Results for 10, 15, 20, 30, 50, and 60 EcoPoints}
+
+The table below (Table \ref{tab:NepDisExectime}) summarizes the performance of the Genetic Algorithm (GA) when tested with varying numbers of EcoPoints.
+The number of EcoPoints tested were 10, 15, 20, 30, 50, and 60.
+For each test case, the total distance of the optimal route found by the GA and the execution time are reported.
+As expected, the execution time increases with the number of EcoPoints, reflecting the additional computational complexity required to find an optimal route through a larger set of points.
+
+% % 10
+% INFO: Execution time: 8.49 seconds
+% INFO: C, 2.2E98, 4.8E16, 3.1E58, 0.1E72, 0.6E24, 0.1E76, 0.7E91, 1.4E85, 2.0E97, 1.0E56, 2.1C, Total=18.1
+
+% % 15
+% INFO: Execution time: 8.83 seconds
+% INFO: C, 4.2E12, 1.1E14, 1.4E93, 0.2E40, 1.6E69, 0.3E82, 2.8E84, 1.4E29, 1.9E49, 1.2E64, 0.5E23, 3.2E45, 0.0E97, 2.0E13, 1.1E55, 0.7C, Total=22.6
+
+% % 20
+% INFO: Execution time: 9.60 seconds
+% INFO: C, 5.8E57, 0.9E67, 0.8E73, 0.8E93, 0.3E28, 0.3E61, 2.4E78, 0.6E51, 0.5E68, 0.1E12, 0.5E98, 2.0E95, 0.5E44, 0.6E5, 1.4E87, 0.5E24, 3.4E4, 0.9E86, 0.1E62, 1.2E39, 1.1C, Total=24.7
+
+% % 30
+% INFO: Execution time: 10.52 seconds
+% INFO: C, 4.3E81, 1.5E39, 0.6E54, 1.5E73, 0.8E78, 1.6E60, 1.4E57, 1.6E12, 0.1E27, 1.8E34, 0.2E35, 0.1E17, 1.7E70, 0.0E98, 0.5E59, 0.5E3, 0.1E51, 0.2E52, 1.4E48, 0.3E46, 1.7E18, 0.5E33, 1.7E88, 1.9E96, 1.1E92, 0.7E84, 0.1E94, 0.0E25, 1.5E85, 1.0E91, 0.7C, Total=31.1
+
+% % 50
+% INFO: Execution time: 12.29 seconds
+% INFO: C, 2.2E72, 0.9E77, 0.0E44, 0.0E46, 2.9E97, 1.0E40, 1.0E36, 0.1E92, 1.0E4, 0.0E91, 0.0E90, 2.1E51, 0.5E24, 0.6E80, 1.0E59, 0.1E17, 2.3E55, 0.2E54, 0.8E69, 3.4E26, 0.3E3, 0.7E43, 0.7E61, 1.2E89, 0.5E12, 0.1E85, 0.7E95, 0.5E83, 1.0E56, 0.3E35, 0.7E53, 0.7E2, 0.8E64, 0.8E1, 0.0E76, 0.0E29, 2.4E65, 0.5E41, 0.8E20, 0.4E31, 0.7E14, 0.6E49, 0.7E73, 0.6E82, 0.5E62, 2.3E38, 1.8E5, 0.0E52, 0.4E79, 0.4E96, 0.2C, Total=41.4
+
+% % 60
+% INFO: Execution time: 13.36 seconds
+% INFO: C, 4.3E6, 1.7E45, 0.8E32, 0.0E72, 0.0E63, 2.2E62, 0.1E14, 0.8E71, 0.8E10, 0.6E88, 0.6E47, 1.1E2, 0.3E92, 0.3E51, 1.4E15, 0.3E95, 2.8E13, 0.0E16, 0.3E12, 0.5E29, 0.2E49, 0.0E38, 1.1E43, 0.7E87, 1.1E94, 0.3E55, 0.4E67, 0.6E96, 0.6E60, 0.5E86, 0.2E59, 1.1E5, 0.1E73, 1.0E76, 1.0E75, 2.8E54, 0.0E40, 0.1E26, 1.2E77, 0.3E81, 0.2E24, 0.0E3, 1.0E18, 0.8E68, 1.2E79, 0.1E93, 1.5E33, 1.2E99, 0.1E25, 0.5E19, 1.7E23, 1.0E82, 0.8E46, 0.2E89, 0.0E7, 0.0E21, 0.1E70, 0.1E84, 0.0E8, 2.8E90, 0.3C, Total=45.8
+
+
+
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Number of EcoPoints} & \textbf{Total Distance} & \textbf{Time of Execution} (s) \\ \hline
+        10 & 18.1 & 8.49 \\ \hline
+        15 & 22.6 & 8.83 \\ \hline
+        20 & 24.7 & 9.60 \\ \hline
+        30 & 31.1 & 10.52 \\ \hline
+        50 & 41.4 & 12.29 \\ \hline
+        60 & 45.8 & 13.36 \\ \hline
+    \end{tabular}
+    \caption{Distance and Execution Time for Different Number of EcoPoints}
+    \label{tab:NepDisExectime}
+\end{center}
+\end{table}
+
+The specific routes obtained for each case are as follows:
+
+\begin{itemize}
+    \item \textbf{10 EcoPoints}: C, 2.2E98, 4.8E16, 3.1E58, 0.1E72, 0.6E24, 0.1E76, 0.7E91, 1.4E85, 2.0E97, 1.0E56, 2.1C, Total=18.1
+    \item \textbf{15 EcoPoints}: C, 4.2E12, 1.1E14, 0.4E93, 0.2E40, 1.6E69, 0.3E82, 2.8E84, 1.4E29, 1.9E49, 1.2E64, 0.5E23, 3.2E45, 0.0E97, 2.0E13, 1.1E55, 0.7C, Total=22.6
+    \item \textbf{20 EcoPoints}: C, 5.8E57, 0.9E67, 0.8E73, 0.8E93, 0.3E28, 0.3E61, 2.4E78, 0.6E51, 0.5E68, 0.1E12, 0.5E98, 2.0E95, 0.5E44, 0.6E5, 1.4E87, 0.5E24, 3.4E4, 0.9E86, 0.1E62, 1.2E39, 1.1C, Total=24.7
+    \item \textbf{30 EcoPoints}: C, 4.3E81, 1.5E39, 0.6E54, 1.5E73, 0.8E78, 1.6E60, 1.4E57, 1.6E12, 0.1E27, 1.8E34, 0.2E35, 0.1E17, 1.7E70, 0.0E98, 0.5E59, 0.5E3, 0.1E51, 0.2E52, 1.4E48, 0.3E46, 1.7E18, 0.5E33, 1.7E88, 1.9E96, 1.1E92, 0.7E84, 0.1E94, 0.0E25, 1.5E85, 1.0E91, 0.7C, Total=31.1
+    \item \textbf{50 EcoPoints}: C, 2.2E72, 0.9E77, 0.0E44, 0.0E46, 2.9E97, 1.0E40, 1.0E36, 0.1E92, 1.0E4, 0.0E91, 0.0E90, 2.1E51, 0.5E24, 0.6E80, 1.0E59, 0.1E17, 2.3E55, 0.2E54, 0.8E69, 3.4E26, 0.3E3, 0.7E43, 0.7E61, 1.2E89, 0.5E12, 0.1E85, 0.7E95, 0.5E83, 1.0E56, 0.3E35, 0.7E53, 0.7E2, 0.8E64, 0.8E1, 0.0E76, 0.0E29, 2.4E65, 0.5E41, 0.8E20, 0.4E31, 0.7E14, 0.6E49, 0.7E73, 0.6E82, 0.5E62, 2.3E38, 1.8E5, 0.0E52, 0.4E79, 0.4E96, 0.2C, Total=41.4
+    \item \textbf{60 EcoPoints}: C, 4.3E6, 1.7E45, 0.8E32, 0.0E72, 0.0E63, 2.2E62, 0.1E14, 0.8E71, 0.8E10, 0.6E88, 0.6E47, 1.1E2, 0.3E92, 0.3E51, 1.4E15, 0.3E95, 2.8E13, 0.0E16, 0.3E12, 0.5E29, 0.2E49, 0.0E38, 1.1E43, 0.7E87, 1.1E94, 0.3E55, 0.4E67, 0.6E96, 0.6E60, 0.5E86, 0.2E59, 1.1E5, 0.1E73, 1.0E76, 1.0E75, 2.8E54, 0.0E40, 0.1E26, 1.2E77, 0.3E81, 0.2E24, 0.0E3, 1.0E18, 0.8E68, 1.2E79, 0.1E93, 1.5E33, 1.2E99, 0.1E25, 0.5E19, 1.7E23, 1.0E82, 0.8E46, 0.2E89, 0.0E7, 0.0E21, 0.1E70, 0.1E84, 0.0E8, 2.8E90, 0.3C, Total=45.8
+\end{itemize}
+
+These results demonstrate the algorithm's ability to handle varying problem sizes efficiently within the required time constraints.
+Given the requirement that routing decisions be computed in less than 20 minutes, our execution times, which are in the range of seconds, show that our implementation is suitable for real-time decision-making.
+However, it is important to note that the current algorithm settings do not always yield the most optimal solutions.
+With larger population sizes and an increased number of generations, the solution quality could improve.
+For testing purposes, we kept the parameters smaller to avoid long waiting times between tests, acknowledging that further optimizations are possible if more computational time is allowed.
+
+
+
+\subsection{Results for 99 EcoPoints}
+
+The table below (Table \ref{tab:Eco99}) presents the results obtained when the GA was applied to a set of 99 EcoPoints (The $100^{th}$ being the Central).
+Two different sets of parameters were tested: a population size of 250 with 600 generations and a population size of 1000 with 5000 generations.
+The results show a significant decrease in total distance with the increased population size and generations but at the cost of a substantially higher execution time.
+
+% POPULATION = 250
+% MUTAION_PROBABILITY = 0.2
+% CROSSOVER_PROBABILITY = 0.7
+% NUMBER_OF_GENERATIONS = 600
+% TOURNAMENT_SIZE = 10
+% INFO: Execution time: 16.21 seconds
+% INFO: C, 3.6E28, 0.8E9, 0.0E62, 0.1E26, 0.0E32, 0.2E30, 5.7E20, 0.3E75, 1.9E86, 0.7E87, 1.5E48, 1.4E24, 0.8E35, 1.8E76, 0.0E65, 0.1E18, 0.6E34, 0.3E47, 4.1E72, 1.9E45, 1.5E10, 0.0E74, 0.1E52, 0.0E13, 1.5E42, 2.1E6, 3.3E7, 0.4E41, 0.8E81, 0.0E68, 0.0E22, 1.3E69, 0.2E39, 0.2E89, 1.4E77, 1.7E36, 0.9E91, 0.1E33, 0.9E44, 0.3E93, 0.8E29, 0.6E1, 0.3E82, 1.4E31, 0.0E16, 0.3E94, 0.3E3, 0.1E60, 1.6E55, 1.6E19, 0.4E67, 1.8E38, 2.1E85, 0.1E98, 0.0E59, 3.2E53, 0.4E66, 1.1E23, 0.4E70, 0.0E25, 0.1E12, 0.5E80, 0.9E56, 1.7E61, 1.2E15, 1.8E8, 0.2E40, 3.3E46, 2.3E54, 0.4E78, 0.4E71, 3.9E90, 0.2E27, 0.0E96, 0.1E84, 3.3E5, 1.8E99, 1.0E88, 0.6E4, 1.0E2, 2.5E64, 0.0E43, 0.0E50, 0.3E11, 0.3E37, 0.0E83, 4.9E21, 1.8E79, 0.1E73, 0.5E57, 0.3E49, 0.3E63, 2.7E97, 1.0E51, 3.1E92, 0.7E58, 0.1E14, 0.2E17, 0.2E95, 0.2C, Total=102.9
+
+
+
+% POPULATION = 1000
+% MUTAION_PROBABILITY = 0.2
+% CROSSOVER_PROBABILITY = 0.7
+% NUMBER_OF_GENERATIONS = 5000
+% TOURNAMENT_SIZE = 20
+% INFO: Execution time: 514.90 seconds
+% INFO: C, 2.1E28, 1.0E9, 2.4E62, 0.7E26, 0.6E32, 1.8E30, 0.3E20, 0.7E75, 0.3E86, 1.9E87, 0.4E48, 2.3E24, 1.7E35, 0.0E76, 0.1E65, 0.0E18, 0.6E34, 3.1E47, 0.6E72, 0.4E45, 0.2E10, 0.4E74, 0.3E52, 0.3E13, 1.7E42, 0.3E6, 0.4E7, 0.7E41, 0.1E81, 0.0E68, 1.0E22, 1.2E69, 0.1E39, 0.0E89, 2.4E77, 1.1E36, 0.0E91, 1.1E33, 0.0E44, 0.0E93, 0.4E29, 0.3E1, 0.1E82, 0.0E31, 0.6E16, 0.1E94, 0.3E3, 0.3E60, 0.3E55, 0.1E19, 0.0E67, 0.3E38, 0.5E85, 0.4E98, 5.2E59, 0.2E53, 0.0E66, 0.0E23, 0.0E70, 0.8E25, 1.0E12, 0.7E80, 3.8E56, 0.0E61, 2.2E15, 0.3E8, 0.3E40, 0.0E46, 0.5E54, 2.8E78, 0.0E71, 0.0E90, 0.5E27, 0.4E96, 0.2E84, 1.1E5, 0.3E99, 0.7E88, 0.8E4, 0.6E2, 0.2E64, 0.2E43, 5.2E50, 1.0E11, 0.0E37, 0.2E83, 2.2E21, 0.0E79, 0.0E73, 2.4E57, 0.0E49, 0.1E63, 2.4E97, 0.0E51, 2.0E92, 0.7E58, 0.1E14, 0.2E17, 0.2E95, 0.2C, Total=75.7
+
+
+% NÃO VAMOS INCLUIR ESTES PQ N SO DEMORARAM SECULOS COMO TAMBÉM NÃO FORAM OS MELHORES RESULTADOS
+
+% POPULATION = 2000
+% MUTAION_PROBABILITY = 0.2
+% CROSSOVER_PROBABILITY = 0.7
+% NUMBER_OF_GENERATIONS = 6000
+% TOURNAMENT_SIZE = 50
+% INFO: Execution time: 1513.73 seconds
+% INFO: C, 2.1E28, 1.0E9, 2.9E62, 0.3E26, 0.7E32, 0.4E30, 0.2E20, 2.4E75, 0.9E86, 0.6E87, 0.3E48, 0.4E24, 3.8E35, 0.0E76, 0.9E65, 0.0E18, 0.1E34, 0.0E47, 2.9E72, 1.3E45, 0.4E10, 0.5E74, 1.0E52, 0.3E13, 0.5E42, 0.5E6, 0.6E7, 0.3E41, 0.3E81, 0.2E68, 0.2E22, 0.4E69, 1.1E39, 0.0E89, 0.8E77, 0.4E36, 0.2E91, 0.5E33, 0.4E44, 0.1E93, 0.0E29, 1.4E1, 0.4E82, 0.0E31, 0.0E16, 0.0E94, 0.1E3, 0.4E60, 0.1E55, 0.3E19, 0.5E67, 0.1E38, 0.3E85, 0.3E98, 1.4E59, 0.7E53, 0.6E66, 3.8E23, 0.0E70, 0.8E25, 1.0E12, 1.5E80, 0.0E56, 2.9E61, 0.8E15, 0.8E8, 0.7E40, 3.8E46, 0.0E54, 3.0E78, 1.1E71, 0.0E90, 0.3E27, 0.3E96, 0.1E84, 3.2E5, 0.1E99, 0.0E88, 6.9E4, 0.0E2, 0.2E64, 1.9E43, 0.3E50, 0.0E11, 0.0E37, 0.0E83, 0.0E21, 0.2E79, 2.3E73, 0.0E57, 1.0E49, 0.6E63, 0.6E97, 0.4E51, 0.6E92, 0.5E58, 4.9E14, 0.2E17, 0.2E95, 0.2C, Total=81.7
+
+% POPULATION = 5000
+% MUTAION_PROBABILITY = 0.2
+% CROSSOVER_PROBABILITY = 0.7
+% NUMBER_OF_GENERATIONS = 10000
+% TOURNAMENT_SIZE = 50
+% INFO: Execution time: 6205.22 seconds
+% INFO: C, 2.2E28, 2.8E9, 1.3E62, 2.5E26, 0.8E32, 0.7E30, 0.6E20, 1.8E75, 0.0E86, 0.3E87, 1.2E48, 0.6E24, 0.5E35, 1.3E76, 0.0E65, 0.0E18, 0.5E34, 0.0E47, 0.1E72, 0.0E45, 0.3E10, 1.0E74, 0.3E52, 0.7E13, 2.7E42, 0.0E6, 0.3E7, 2.2E41, 2.9E81, 1.0E68, 0.1E22, 0.0E69, 0.9E39, 3.8E89, 0.7E77, 1.5E36, 0.8E91, 1.2E33, 0.0E44, 2.2E93, 0.2E29, 0.0E1, 0.0E82, 0.0E31, 0.0E16, 0.0E94, 0.0E3, 0.0E60, 0.1E55, 0.8E19, 1.0E67, 0.7E38, 0.6E85, 0.4E98, 0.0E59, 0.1E53, 0.8E66, 1.3E23, 0.5E70, 0.2E25, 1.1E12, 0.1E80, 1.7E56, 0.6E61, 0.4E15, 0.8E8, 1.2E40, 0.3E46, 0.5E54, 1.1E78, 0.0E71, 0.0E90, 0.1E27, 1.0E96, 0.1E84, 0.1E5, 0.0E99, 0.0E88, 1.5E4, 0.8E2, 0.6E64, 0.6E43, 0.6E50, 0.8E11, 0.3E37, 0.1E83, 0.0E21, 0.4E79, 0.5E73, 4.5E57, 0.1E49, 0.4E63, 0.0E97, 0.2E51, 0.3E92, 1.2E58, 0.0E14, 2.1E17, 0.2E95, 0.2C, Total=71.0
+
+
+\begin{table}[H]
+    \begin{adjustwidth}{-3cm}{-2cm}
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|c|c|c|}
+                \hline
+                \makecell{\textbf{Population}} & \makecell{\textbf{Mutation}\\\textbf{Probability}} & \makecell{\textbf{Crossover}\\\textbf{Probability}} & \makecell{\textbf{Number of}\\\textbf{Generations}} & \makecell{\textbf{Tournament}\\\textbf{Size}} & \makecell{\textbf{Total}\\\textbf{Distance}} & \makecell{\textbf{Time of}\\\textbf{Execution} (s)} \\ \hline
+                250 & 0.2 & 0.7 & 600 & 10 & 102.9 & 16.21 \\ \hline
+                1000 & 0.2 & 0.7 & 5000 & 20 & 75.7 & 514.90 \\ \hline
+
+            \end{tabular}
+            \caption{Results for 99 EcoPoints}
+            \label{tab:Eco99}
+        \end{center}
+    \end{adjustwidth}
+\end{table}
+
+The specific routes obtained for each case are as follows:
+
+\begin{itemize}
+    \item \textbf{Pop. 250, Generations 600}: C, 3.6E28, 0.8E9, 0.0E62, 0.1E26, 0.0E32, 0.2E30, 5.7E20, 0.3E75, 1.9E86, 0.7E87, 1.5E48, 1.4E24, 0.8E35, 1.8E76, 0.0E65, 0.1E18, 0.6E34, 0.3E47, 4.1E72, 1.9E45, 1.5E10, 0.0E74, 0.1E52, 0.0E13, 1.5E42, 2.1E6, 3.3E7, 0.4E41, 0.8E81, 0.0E68, 0.0E22, 1.3E69, 0.2E39, 0.2E89, 1.4E77, 1.7E36, 0.9E91, 0.1E33, 0.9E44, 0.3E93, 0.8E29, 0.6E1, 0.3E82, 1.4E31, 0.0E16, 0.3E94, 0.3E3, 0.1E60, 1.6E55, 1.6E19, 0.4E67, 1.8E38, 2.1E85, 0.1E98, 0.0E59, 3.2E53, 0.4E66, 1.1E23, 0.4E70, 0.0E25, 0.1E12, 0.5E80, 0.9E56, 1.7E61, 1.2E15, 1.8E8, 0.2E40, 3.3E46, 2.3E54, 0.4E78, 0.4E71, 3.9E90, 0.2E27, 0.0E96, 0.1E84, 3.3E5, 1.8E99, 1.0E88, 0.6E4, 1.0E2, 2.5E64, 0.0E43, 0.0E50, 0.3E11, 0.3E37, 0.0E83, 4.9E21, 1.8E79, 0.1E73, 0.5E57, 0.3E49, 0.3E63, 2.7E97, 1.0E51, 3.1E92, 0.7E58, 0.1E14, 0.2E17, 0.2E95, 0.2C, Total=102.9
+    \item \textbf{Pop. 1000, Generations 5000}: C, 2.1E28, 1.0E9, 2.4E62, 0.7E26, 0.6E32, 1.8E30, 0.3E20, 0.7E75, 0.3E86, 1.9E87, 0.4E48, 2.3E24, 1.7E35, 0.0E76, 0.1E65, 0.0E18, 0.6E34, 3.1E47, 0.6E72, 0.4E45, 0.2E10, 0.4E74, 0.3E52, 0.3E13, 1.7E42, 0.3E6, 0.4E7, 0.7E41, 0.1E81, 0.0E68, 1.0E22, 1.2E69, 0.1E39, 0.0E89, 2.4E77, 1.1E36, 0.0E91, 1.1E33, 0.0E44, 0.0E93, 0.4E29, 0.3E1, 0.1E82, 0.0E31, 0.6E16, 0.1E94, 0.3E3, 0.3E60, 0.3E55, 0.1E19, 0.0E67, 0.3E38, 0.5E85, 0.4E98, 5.2E59, 0.2E53, 0.0E66, 0.0E23, 0.0E70, 0.8E25, 1.0E12, 0.7E80, 3.8E56, 0.0E61, 2.2E15, 0.3E8, 0.3E40, 0.0E46, 0.5E54, 2.8E78, 0.0E71, 0.0E90, 0.5E27, 0.4E96, 0.2E84, 1.1E5, 0.3E99, 0.7E88, 0.8E4, 0.6E2, 0.2E64, 0.2E43, 5.2E50, 1.0E11, 0.0E37, 0.2E83, 2.2E21, 0.0E79, 0.0E73, 2.4E57, 0.0E49, 0.1E63, 2.4E97, 0.0E51, 2.0E92, 0.7E58, 0.1E14, 0.2E17, 0.2E95, 0.2C, Total=75.7
+\end{itemize}
+
+\subsection{Conclusions}
+
+Through this study, we have optimized a Genetic Algorithm by systematically varying its parameters.
+We observed that increasing the population size and the number of generations leads to a better solution in terms of total distance but at the cost of higher execution time.
+The results suggest a trade-off between solution quality and computational efficiency.
+Future work could explore adaptive techniques for dynamically adjusting GA parameters during execution to balance these trade-offs more effectively.
+
